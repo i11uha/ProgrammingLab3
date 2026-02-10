@@ -11,6 +11,11 @@ public class Narrator extends Planter {
 
     @Override
     public Product factoryHarvest() {
+        // Если под табаком 0 — ничего не растёт
+        if (currentPlantation.getTobaccoSquare() <= 0) {
+            return null;
+        }
         return new Tobacco();
     }
+
 }

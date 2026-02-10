@@ -26,7 +26,13 @@ public class Main {
 //            Plantation smallPlantation = new Plantation("Brazil",2.0);
 //            smallPlantation.plantProduct(new Tobacco(), 10.0);
 
+            // убери комментирование для демонстрациии NoHarvestException
 
+//            Plantation badPlantation = new Plantation("Brazil",0);
+//            Narrator badNarrator = new Narrator();
+//            badNarrator.setCurrentPlantation(badPlantation);
+//            badNarrator.setMood(Mood.values()[rand.nextInt(Mood.values().length)]);
+//            badNarrator.work();
 
             // также количество засаженных урожаем территорий
             double tobaccoShare = rand.nextDouble();

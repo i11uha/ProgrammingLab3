@@ -1,5 +1,6 @@
 package persons;
 
+import exceptions.NoHarvestException;
 import objects.Plantation;
 import objects.Product;
 import exceptions.OverloadException;
@@ -8,19 +9,20 @@ public abstract class Planter extends Person {
     protected Plantation currentPlantation; // чтобы потомки могли использовать
 
     @Override
-    public void work() {
+    public void work() throws NoHarvestException { // ← добавлен throws
         if (currentPlantation == null) {
             throw new IllegalStateException(name + " не имеет плантации для работы!");
         }
         Product product = factoryHarvest();
-        if (product != null) {
-            double area = 5.0 * getMoodMultiplier();
-            try {
-                currentPlantation.plantProduct(product, area);
-                System.out.println(name + " успешно обработал " + String.format("%.1f", area) + " гектаров.");
-            } catch (OverloadException e) {
-                System.err.println("Ошибка при работе: " + e.getMessage());
-            }
+        if (product == null) {
+            throw new NoHarvestException("Урожай не собран: " + name + " не может произвести продукт.");
+        }
+        double area = 5.0 * getMoodMultiplier();
+        try {
+            currentPlantation.plantProduct(product, area);
+            System.out.println(name + " успешно обработал " + String.format("%.1f", area) + " гектаров.");
+        } catch (OverloadException e) {
+            System.err.println("Ошибка при работе: " + e.getMessage());
         }
     }
 

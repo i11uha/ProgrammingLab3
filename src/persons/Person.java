@@ -1,5 +1,6 @@
 package persons;
 
+import exceptions.NoHarvestException;
 import objects.Course;
 import objects.ProductsTrade;
 import objects.WorldObject;
@@ -66,7 +67,7 @@ public abstract class Person implements WorldObject {
 
     public int getWorkingCapital() { return workingCapital; }
 
-    public abstract void work();
+    public abstract void work() throws NoHarvestException;
 
     @Override
     public boolean equals(Object object) {

@@ -3,14 +3,10 @@ import enums.Mood;
 import enums.Nationality;
 import events.Voyage;
 import exceptions.InvalidTradeException;
-import objects.Plantation;
-import objects.ProductsTrade;
-import objects.Ship;
+import objects.*;
 import persons.Narrator;
 import persons.Neighbour;
 import persons.Voyager;
-import objects.CourseBuilder;
-import objects.Director;
 
 import java.util.*;
 
@@ -25,6 +21,12 @@ public class Main {
             Plantation myPlantation = new Plantation("Brazil", myTotalArea);
 
             Plantation neighborPlantation = new Plantation("Brazil",neighborTotalArea);
+
+            // Раскоментируй для демонтсрации OverloadException
+//            Plantation smallPlantation = new Plantation("Brazil",2.0);
+//            smallPlantation.plantProduct(new Tobacco(), 10.0);
+
+
 
             // также количество засаженных урожаем территорий
             double tobaccoShare = rand.nextDouble();
@@ -69,6 +71,8 @@ public class Main {
             System.out.println("Торгует плантация " + narrator.getName() +
                     " и плантация " + neighbour.getName() + ".");
             myPlantation.tradeWith(neighborPlantation);
+//            убери комментарий для  того чтобы продемонстрироват работу исключения: "InvalidTradeException"
+//            myPlantation.tradeWith(null);
 
             // Narrator изучает португалльский для торговли
             // используется паттерн Builder

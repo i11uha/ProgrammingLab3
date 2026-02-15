@@ -55,7 +55,9 @@ public abstract class Person implements WorldObject {
 
     public Mood getMood() { return mood; }
 
-    public void setNationality(Nationality nationality) {}
+    public void setNationality(Nationality nationality) {
+        this.nationality = nationality;
+    }
 
     public Nationality getNationality() { return nationality; }
 

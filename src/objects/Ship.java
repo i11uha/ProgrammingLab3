@@ -1,11 +1,11 @@
 package objects;
 
-import enums.Destination;
+import enums.NativeLanguage;
 
 public class Ship implements WorldObject {
     private String name;
     private int capacity;
-    private Destination currentDestination;
+    private NativeLanguage currentNativeLanguage;
 
     @Override
     public String getName() { return name; }
@@ -13,8 +13,8 @@ public class Ship implements WorldObject {
     @Override
     public void setName(String name) {this.name = name;}
 
-    public void goTo(Destination d) {
-        this.currentDestination = d;
+    public void goTo(NativeLanguage d) {
+        this.currentNativeLanguage = d;
         System.out.println("Корабль " + name + " отправляется в " + d);
     }
 
@@ -22,24 +22,24 @@ public class Ship implements WorldObject {
 
     public void setCapacity(int capacity) { this.capacity = capacity; }
 
-    public Destination getCurrentDestination() { return currentDestination; }
+    public NativeLanguage getCurrentDestination() { return currentNativeLanguage; }
 
-    public void setCurrentDestination(Destination destination) { this.currentDestination = destination; }
+    public void setCurrentDestination(NativeLanguage nativeLanguage) { this.currentNativeLanguage = nativeLanguage; }
 
     @Override
     public boolean equals(Object object) {
         if (this == object) return true;
         if (!(object instanceof Ship s)) return false;
-        return capacity == s.capacity && java.util.Objects.equals(name, s.name) && currentDestination == s.currentDestination;
+        return capacity == s.capacity && java.util.Objects.equals(name, s.name) && currentNativeLanguage == s.currentNativeLanguage;
     }
 
     @Override
     public int hashCode() {
-        return java.util.Objects.hash(name, capacity, currentDestination);
+        return java.util.Objects.hash(name, capacity, currentNativeLanguage);
     }
 
     @Override
     public String toString() {
-        return "Ship{name='" + name + "', dest=" + currentDestination + "}";
+        return "Ship{name='" + name + "', dest=" + currentNativeLanguage + "}";
     }
 }

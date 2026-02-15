@@ -55,7 +55,7 @@ public class Plantation extends Field {
     public void plantProduct(Product product, double area) throws OverloadException {
         if (area > square) throw new OverloadException("\n" + "Недостаточно земли для посадки");
         products.add(product);
-        product.doStuff();
+        product.productCreation();
         if (product instanceof Tobacco) tobaccoSquare += area;
         else if (product instanceof SugarCane) sugarCaneSquare += area;
     }

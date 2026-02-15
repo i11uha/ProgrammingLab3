@@ -24,6 +24,7 @@ public class Director {
         builder.setHoursPerWeek(8);
         Course c = builder.getResult();
         c.setTitle("Португальский язык");
+        System.out.println("Создан курс: " + c.getTitle() + ". Обучение(час): " + c.getHoursPerWeek() + ". Экзамен: " + c.hasExam() + ". Оценка: " + c.hasAssessment() + ". Дистант: " + c.isDistant() + ". Количество часов в неделю: " + c.getTimeFrameWeeks());
     }
 
     public void makeDrivingCourse(CourseBuilder builder) {

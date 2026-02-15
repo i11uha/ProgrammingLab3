@@ -1,6 +1,6 @@
 package events;
 
-import enums.Destination;
+import enums.NativeLanguage;
 import exceptions.OverloadException;
 import objects.ProductsTrade;
 import objects.Ship;
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class Voyage extends Activity {
     private Ship ship;
-    private Destination destination;
+    private NativeLanguage nativeLanguage;
     private ArrayList<ProductsTrade> cargo = new ArrayList<>();
 
     public void sail(ArrayList<ProductsTrade> initialCargo) throws OverloadException {
@@ -17,7 +17,7 @@ public class Voyage extends Activity {
             throw new OverloadException("Груз превышает вместимость корабля");
         }
         loadCargo(initialCargo);
-        ship.goTo(destination);
+        ship.goTo(nativeLanguage);
         unloadAtDestination();
     }
 
@@ -31,15 +31,15 @@ public class Voyage extends Activity {
                 .mapToInt(ProductsTrade::count) // получаем count каждого товара
                 .sum();
 
-        System.out.println("Разгрузка " + totalBales + " тюков в " + destination);
+        System.out.println("Разгрузка " + totalBales + " тюков в " + nativeLanguage);
         cargo.clear();
     }
 
     public Ship getShip() {return ship;}
     public void setShip(Ship ship) {this.ship = ship;}
 
-    public Destination getDestination() {return destination;}
-    public void setDestination(Destination destination) {this.destination = destination;}
+    public NativeLanguage getDestination() {return nativeLanguage;}
+    public void setDestination(NativeLanguage nativeLanguage) {this.nativeLanguage = nativeLanguage;}
 
     public ArrayList<ProductsTrade> getCargo() {return cargo;}
     public void setCargo(ArrayList<ProductsTrade> cargo) {this.cargo = cargo;}
@@ -50,16 +50,16 @@ public class Voyage extends Activity {
         if (this == object) return true;
         if (!(object instanceof Voyage voyage)) return false;
         return java.util.Objects.equals(ship, voyage.ship) &&
-                destination == voyage.destination;
+                nativeLanguage == voyage.nativeLanguage;
     }
 
     @Override
     public int hashCode() {
-        return java.util.Objects.hash(ship, destination);
+        return java.util.Objects.hash(ship, nativeLanguage);
     }
 
     @Override
     public String toString() {
-        return "Voyage{ship=" + ship.getName() + ", to=" + destination + "}";
+        return "Voyage{ship=" + ship.getName() + ", to=" + nativeLanguage + "}";
     }
 }

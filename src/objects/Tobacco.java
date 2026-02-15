@@ -2,7 +2,7 @@ package objects;
 
 public class Tobacco implements Product {
     @Override
-    public void doStuff() {
+    public void productCreation() {
         System.out.println("Табак засушен и собран в тюки");
     }
 

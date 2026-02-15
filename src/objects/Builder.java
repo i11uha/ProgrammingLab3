@@ -1,6 +1,6 @@
 package objects;
 
-// Builder.java
+
 public interface Builder {
     void reset();
     void setTimeFrame(int weeks);

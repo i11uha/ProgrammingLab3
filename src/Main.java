@@ -1,4 +1,4 @@
-import enums.Destination;
+import enums.NativeLanguage;
 import enums.Mood;
 import enums.Nationality;
 import events.Voyage;
@@ -53,6 +53,11 @@ public class Main {
             narrator.setCurrentPlantation(myPlantation);
             myPlantation.setOwner(narrator);
 
+            ArrayList<ProductsTrade> narratorInventory = new ArrayList<>();
+            narratorInventory.add(new ProductsTrade("Семена табака", 20, 1.5));
+            narratorInventory.add(new ProductsTrade("Инструменты", 5, 10.0));
+            narrator.setInventory(narratorInventory);
+
             Neighbour neighbour = new Neighbour();
             neighbour.setName("Manuel");
             neighbour.setNationality(Nationality.PORTUGUESE);
@@ -60,8 +65,24 @@ public class Main {
             neighbour.setWorkingCapital(140);
             neighbour.setCurrentPlantation(neighborPlantation);
             neighborPlantation.setOwner(neighbour);
+            neighbour.work();
+            ArrayList<ProductsTrade> neighbourInventory = new ArrayList<>();
+            neighbourInventory.add(new ProductsTrade("Семена тростника", 25, 1.2));
+            neighbour.setInventory(neighbourInventory);
 
 
+            System.out.println("\n" + narrator.getName() + " использует семена для посадки...");
+            ArrayList<ProductsTrade> usedSeeds = new ArrayList<>();
+            usedSeeds.add(new ProductsTrade("Семена табака", 20, 1.5));
+            narrator.removeInventory(usedSeeds);
+            narrator.work();
+
+            Plantation currentPlot = narrator.getCurrentPlantation();
+            if (currentPlot != null) {
+                System.out.println(narrator.getName() + " управляет плантацией в " +
+                        currentPlot.getLocation() + " общей площадью " +
+                        String.format("%.1f", currentPlot.getSquare()) + " га");
+            }
             // выводим информацию о владениях
             System.out.printf("%s (%s):\n", narrator.getName(), narrator.getMood());
             System.out.printf("  Общая площадь: %.1f\n", myTotalArea);
@@ -73,12 +94,24 @@ public class Main {
             System.out.printf("  Под табаком: %.1f\n", neighborPlantation.getTobaccoSquare());
             System.out.printf("  Под тростником: %.1f\n\n", neighborPlantation.getSugarCaneSquare());
 
+            narrator.speak("давай обменяемся семенами — мне нужны твои побеги тростника");
+            neighbour.speak("с радостью, робинзон");
+
             // Торговля плантаций
             System.out.println("Торгует плантация " + narrator.getName() +
                     " и плантация " + neighbour.getName() + ".");
             myPlantation.tradeWith(neighborPlantation);
+            myPlantation.expandArea(10.0);
+            narrator.dream("<...> богатой приключениями жизни, о которой я мечтал...");
 //            убери комментарий для  того чтобы продемонстрироват работу исключения: "InvalidTradeException"
 //            myPlantation.tradeWith(null);
+
+            System.out.println("Остаток инвентаря у " + narrator.getName() + ":");
+            for (ProductsTrade item : narrator.getInventory()) {
+                System.out.println("  - " + item.name() + ": " + item.count() + " шт.");
+            }
+
+            System.out.println(narrator.getName() + " — гражданин " + narrator.getNationality());
 
             // Narrator изучает португалльский для торговли
             // используется паттерн Builder
@@ -98,11 +131,12 @@ public class Main {
             Ship ship = new Ship();
             ship.setName("Fortuna");
             ship.setCapacity(100);
-            ship.setCurrentDestination(Destination.LISBON); // порт Лиссабон
+            ship.setCurrentDestination(NativeLanguage.LISBON); // порт Лиссабон
 
             Voyage voyage = new Voyage();
             voyage.setShip(ship);
-            voyage.setDestination(Destination.LISBON);
+            voyage.setDestination(NativeLanguage.LISBON);
+
 
             Voyager voyager = new Voyager();
             voyager.setName("Robinson (as Trader)");
@@ -110,9 +144,16 @@ public class Main {
             voyager.setMood(Mood.AMBITIOUS);
             voyager.setCurrentVoyage(voyage);
 
+            Voyage assignedVoyage = voyager.getCurrentVoyage();
+            if (assignedVoyage != null) {
+                System.out.println(voyager.getName() + " назначен на рейс в " +
+                        assignedVoyage.getDestination() + " на корабле \"" +
+                        assignedVoyage.getShip().getName() + "\"");
+            }
+
             // если знает язык порта — +20% к цене
             boolean knowsLocalLanguage = false;
-            if (ship.getCurrentDestination() == Destination.LISBON) {
+            if (ship.getCurrentDestination() == NativeLanguage.LISBON) {
                 knowsLocalLanguage = narrator.knowsLanguage(Nationality.PORTUGUESE);
             }
 
@@ -122,6 +163,10 @@ public class Main {
             ArrayList<ProductsTrade> cargo = new ArrayList<>();
             cargo.add(finalDeal);
             voyage.sail(cargo);
+
+            int profit = (int) finalDeal.sell();
+            int newCapital = narrator.getWorkingCapital() + profit; //  getWorkingCapital
+            narrator.setWorkingCapital(newCapital);
 
             // финалььная сделка в порту
             System.out.println("\nПРОДАЖА В ПОРТУ");
